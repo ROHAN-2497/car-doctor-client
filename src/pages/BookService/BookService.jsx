@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../components/Providers/authProvider";
+import { data } from "autoprefixer";
 
 const BookService = () => {
   const service = useLoaderData();
-  const { price, title, _id } = service;
+  const { price, title, _id, img } = service;
   const { users } = useContext(AuthContext);
   const handleBookService = (event) => {
     event.preventDefault();
@@ -12,15 +13,31 @@ const BookService = () => {
     const name = form.name.value;
     const date = form.date.value;
     const email = users?.email;
-    const order ={
-        customarName: name,
-        email, 
-        date,
-        service: _id,
-        price
-    }
-    console.log(order)
+    const booking = {
+      customarName: name,
+      email,
+      date,
+      img,
+      service: _id,
+      service_id: title,
+      price,
+    };
+      fetch('http://localhost:5000/booking',{
+        method: 'POST',
+        headers:{
+          'content-type':'application/json'
+        },
+        body: JSON.stringify(booking)
+      })
+      .then(res => res.json())
+      .then(data =>{
+        console.log(data)
+        if(data.insertedId){
+          alert('service book successfully')
+        }
+      })
 
+    console.log(booking);
   };
 
   return (
@@ -32,7 +49,12 @@ const BookService = () => {
             <label className="label">
               <span className="label-text">Name</span>
             </label>
-            <input type="text" name="name"  defaultValue={users?.displayName} className="input input-bordered" />
+            <input
+              type="text"
+              name="name"
+              defaultValue={users?.displayName}
+              className="input input-bordered"
+            />
           </div>
           <div className="form-control">
             <label className="label">
