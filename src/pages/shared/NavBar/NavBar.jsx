@@ -8,7 +8,7 @@ const NavBar = () => {
   const handleLogOut = () => {
     logOut()
       .then(() => {})
-      .catch(error => console.log(error))
+      .catch((error) => console.log(error));
   };
   const navItems = (
     <>
@@ -19,9 +19,15 @@ const NavBar = () => {
         <Link to="/about">About</Link>
       </li>
       {users?.email ? (
-        <li>
-          <button onClick={handleLogOut}>LogOut</button>
-        </li>
+        <>
+          <li>
+          <Link to="/bookings">My Bookings</Link>
+
+          </li>
+          <li>
+            <button onClick={handleLogOut}>LogOut</button>
+          </li>
+        </>
       ) : (
         <li>
           <Link to="/login">Log In</Link>
