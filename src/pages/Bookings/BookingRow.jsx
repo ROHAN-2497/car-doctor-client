@@ -1,15 +1,16 @@
 import { data } from "autoprefixer";
 import React from "react";
 
-const BookingRow = ({ booking, handleDelete }) => {
-  const {_id, service_id, price, date, email, img } = booking;
-
- 
+const BookingRow = ({ booking, handleDelete, handleBookingConfirm }) => {
+  const { _id, service_id, price, date, email, img } = booking;
 
   return (
     <tr>
       <th>
-        <button onClick={()=> handleDelete(_id)} className="btn btn-sm btn-circle">
+        <button
+          onClick={() => handleDelete(_id)}
+          className="btn btn-sm btn-circle"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -37,7 +38,16 @@ const BookingRow = ({ booking, handleDelete }) => {
       <td>${price}</td>
       <td>{date}</td>
       <th>
-        <button className="btn btn-ghost btn-xs">details</button>
+        {status === "confirm" ? (
+          <span className="font-bold text-primary">Confirm</span>
+        ) : (
+          <button
+            onClick={() => handleBookingConfirm(_id)}
+            className="btn btn-ghost btn-xs"
+          >
+           Please Confirm
+          </button>
+        )}{" "}
       </th>
     </tr>
   );
