@@ -2,12 +2,13 @@ import React, { useContext } from "react";
 import img from "../../assets/images/login/login.svg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../components/Providers/authProvider";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Login = () => {
-    const {signIn} = useContext(AuthContext);
-    const location = useLocation();
-    const navigate = useNavigate();
-     const from = location.state?.from?.pathname || '/';
+  const { signIn } = useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -16,29 +17,17 @@ const Login = () => {
     const password = form.password.value;
     // console.log(name, email, password);
     signIn(email, password)
-    .then(result =>{
+      .then((result) => {
         const user = result.user;
-        const loggedUser = {
-          email : user.email
-        }
-        fetch('http://localhost:5000/jwt', {
-          method: 'POST',
-          headers:{
-            'content-type': 'application/json'
-          },
-          body: JSON.stringify(loggedUser)
-        })
-        .then(res=>res.json())
-        .then(data => {
-          console.log('jwt response', data)
-          localStorage.setItem('car-access-token', data.token);
-          navigate(from, {replace: true})
-        })
-        console.log(loggedUser)
-    })
-    .catch(error =>{
-        console.log(error)
-    })
+      
+        console.log(user);
+        navigate(from, { replace: true });
+
+        console.log(loggedUser);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <div className="hero min-h-screen bg-base-200">
@@ -91,6 +80,7 @@ const Login = () => {
                 Sign Up
               </Link>
             </p>
+            <SocialLogin></SocialLogin>
           </div>
         </div>
       </div>
